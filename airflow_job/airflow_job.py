@@ -25,8 +25,8 @@ with DAG(
 
     # Fetch environment variables
     env = Variable.get("env", default_var="dev")
-    gcs_bucket = Variable.get("gcs_bucket", default_var="project-airflow-gds")
-    bq_project = Variable.get("bq_project", default_var="titanium-atlas-469206-a3")
+    gcs_bucket = Variable.get("gcs_bucket", default_var="your bucket")
+    bq_project = Variable.get("bq_project", default_var="your project_id")
     bq_dataset = Variable.get("bq_dataset", default_var=f"flight_data_{env}")
     tables = Variable.get("tables", deserialize_json=True)
 
@@ -42,7 +42,7 @@ with DAG(
     file_sensor = GCSObjectExistenceSensor(
         task_id="check_file_arrival",
         bucket=gcs_bucket,
-        object=f"airflow-project-tutorial-1/source-{env}/flight_booking.csv",  # Full file path in GCS
+        object=f"your file path",  # Full file path in GCS
         google_cloud_conn_id="google_cloud_default",  # GCP connection
         timeout=300,  # Timeout in seconds
         poke_interval=30,  # Time between checks
@@ -52,7 +52,7 @@ with DAG(
     # Task 2: Submit PySpark job to Dataproc Serverless
     batch_details = {
         "pyspark_batch": {
-            "main_python_file_uri": f"gs://{gcs_bucket}/airflow-project-tutorial-1/spark-job/spark_transformation_job.py",  # Main Python file
+            "main_python_file_uri": f"yout file path",  # Main Python file
             "python_file_uris": [],  # Python WHL files
             "jar_file_uris": [],  # JAR files
             "args": [
@@ -69,9 +69,9 @@ with DAG(
         },
         "environment_config": {
             "execution_config": {
-                "service_account": "620444098631-compute@developer.gserviceaccount.com",
-                "network_uri": "projects/titanium-atlas-469206-a3/global/networks/default",
-                "subnetwork_uri": "projects/titanium-atlas-469206-a3/regions/us-central1/subnetworks/default",
+                "service_account": "your service_account",
+                "network_uri": "your network_uri",
+                "subnetwork_uri": "your subnetwork_uri",
             }
         },
     }
@@ -80,7 +80,7 @@ with DAG(
         task_id="run_spark_job_on_dataproc_serverless",
         batch=batch_details,
         batch_id=batch_id,
-        project_id="titanium-atlas-469206-a3",
+        project_id="your project id",
         region="us-central1",
         gcp_conn_id="google_cloud_default",
     )
