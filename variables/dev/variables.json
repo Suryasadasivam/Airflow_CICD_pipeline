@@ -1,7 +1,7 @@
 {
     "env": "dev",
-    "gcs_bucket": "project-airflow-gds",
-    "bq_project": "titanium-atlas-469206-a3",
+    "gcs_bucket": "your gcp bucket",
+    "bq_project": "your project_id",
     "bq_dataset": "flight_data_dev",
     "tables": {
       "transformed_table": "transformed_flight_data_dev",
